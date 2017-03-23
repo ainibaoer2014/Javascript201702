@@ -16,7 +16,7 @@
     // 2.作为一个类
 //     具有原型链模式 类和实例的概念
     // 3.作为一个普通对象
-//     当做一个对象给他添加属性
+    // 当做一个对象给他添加属性
 //    function Fn() {
 //        var info = 'zhufeng';
 //    }
@@ -31,46 +31,48 @@
 //    console.log(Fn.num);
 //    console.dir(Fn);
 //    var f1 = new Fn
-
-// 函数的三种角色互不影响
-    function Fn() {
-         var num; // Fn执行的时候形成的私有变量
-         this.num = 200;
-         num = 300;
-         this.say = function () {
-             this.num = 15;
-             console.log(this.num);
-             console.log(Fn.num); // 把Fn当做一个对象 找一个叫做num的属性
-         }
-    }
-    var f1 = new Fn;
-    Fn.prototype.num = 100; // 作为一个类在原型上给实例添加 公有属性num
-    num = 400;   Fn.num = 111; // 作为一个对象 给Fn自身添加属性
-    Fn();   f1.say(); // 15 111
-    console.log(num); // 200
-    console.log(f1.num); // 15
-
-//    var num = 0;
-//    function Fn(num) {
-//        arguments[0] = 100;
-//        this.num = 200;
-//        console.log(num);
-//        console.log(this.num);
-//        return num;
+//
+//// 函数的三种角色互不影响
+//    function Fn() {
+//         var num; // Fn执行的时候形成的私有变量
+//         this.num = 200;//给当前实例添加私有属性num=200
+//         num = 300;
+//         this.say = function () {  //给当前实例添加私有方法say
+//             this.num = 15;//this 主要看say()执行前有没有点
+//             console.log(this.num);
+//             console.log(Fn.num); // 把Fn当做一个对象 找一个叫做num的属性，和Fn的私有变量无关，
+//                                  // 原型链查找机制，它本身有没有私有属性num，没有向上查找它所属类的原型上有没有这个属性，一直查找到Object基类的原型上
+//             console.log(num);//作用域查找机制，在作用域中找的是变量num
+//         }
 //    }
-//    Fn.num = 400;
-//    Fn.prototype.num = 300;
-//    Fn.prototype.getNum = function () {
-//        console.log(this.num);
-//    };
-//    var f = new Fn(num);
-//    console.log(f.num);
-//    f.getNum();
-//    Fn.prototype.getNum();
-//    console.log(num);
-//    var n = Fn(num);
-//    console.log(n);
-//    console.log(num);
+//    var f1 = new Fn();//构造函数执行作用：创建一个实例，给当前实例添加私有属性和方法
+//    Fn.prototype.num = 100; // 在Fn类对应的原型上添加公有属性num,只有Fn类的实例没有num属性时，才往它上面找
+//    num = 400;   Fn.num = 111; // 作为一个对象 给Fn自身添加属性
+//    Fn();   f1.say(); // 15
+//    console.log(num); // 200
+//    console.log(f1.num); // 15
+
+    var num = 0;//window.num=0
+    function Fn(num) {
+        arguments[0] = 100;//私有变量num=100
+        this.num = 200;//实例.num=200
+        console.log(num);//100
+        console.log(this.num);//200
+        return num;//
+    }
+    Fn.num = 400;//Fn当作实例.num=400
+    Fn.prototype.num = 300;//Fn对应的原型.num=300
+    Fn.prototype.getNum = function () {//Fn对应的原型上添加公有方法getNum
+        console.log(this.num);
+    };
+    var f = new Fn(num);//f是Fn的实例{num:200}
+    console.log(f.num);//200
+    f.getNum();//200
+    Fn.prototype.getNum();//300
+    console.log(num);//0
+    var n = Fn(num);
+    console.log(n);//100
+    console.log(num);//200
 
 </script>
 </body>

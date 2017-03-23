@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>思考题</title>
+</head>
+<body>
+    <script>
+        //->思考题
+        //数组中存在一个方法slice：在一个数组中进行查找，找到我们需要的部分，最后返回一个新数组，原来数组不变
+        //ary.slice()
+        //ary.slice(n)
+        //ary.slice(n,m)
+        // ->如果n或者m或者两者都是负数呢  0=<n+arr.length< m+arr.length转化为正数再截取
+        //                                n+arr.length< m+arr.length<0  报错
+       //                                  n+arr.length>= m+arr.length 则不会将任何元素复制到新数组中，返回一个空数组。
+        // ->如果是小数呢
+        // ->如果是非有效数字呢
+        // ->如果传递的n>m呢      则不会将任何元素复制到新数组中，返回一个空数组。
+        // ->如果传递的n或者m或者两者都大于最大长度呢   提取范围超出索引范围，返回空数组
+
+
+
+
+
+        /*Array.prototype.mySlice = function mySlice() {
+            /!*实现你的代码，完成和内置slice一模一样的功能：要求尽可能的考虑更多情况、不能使用数组中内置的方法*!/
+
+            return this.slice.apply(this, arguments);
+        }*/
+
+        Array.prototype.mySlice = function mySlice() {
+            //不传参或传入的参数为0时
+            if(arguments.length===0) {
+                return this;
+                //传入一个参数  为负数   转为正数 大于0 小于 数组长度
+            }else if(arguments.length===1){
+                if(arguments[0]===0){
+                    return this;
+                }else if(arguments[0]<0){
+                    var val=arguments[0]+this.length;
+                    if(val>=0){
+                        return this.slice.apply(this, arguments);
+                    }else{
+                        return '您输入的数字是一个负数且+数组长度还是负数，超过了数组的长度';
+                    }
+                }else if(arguments[0]>=0){
+                    if(arguments[0]<arguments.length){
+                        return this.slice.apply(this, arguments);
+                    }else{
+                        return '您输入的数字是一个正数且超过了数组的长度';
+                    }
+                }
+            }else if(arguments.length===2){
+                if(0=<arguments[0]<arguments[1]){
+                    return this.slice.apply(this, arguments);
+                }else if(0=<arguments[0]>=arguments[1]){
+
+                }
+            }
+
+            return this.slice.apply(this, arguments);
+        }
+        var arr=[4,3,5,7];
+        console.log(arr.mySlice(10));
+
+        /*思考题
+         *  (5).plus(3).minus(2)  =>6  在Number的原型上扩展方法:plus和minus不仅可以实现加减操作而且还可以实现链式写法
+         */
+        /*
+        obj.hasOwnProperty('name'):接收一个字符串参数，该参数表示属性名称，用来判断该属性是否在当前对象实例中，而不是在对象的原型链中
+        Object.prototype.isPrototypeOf(obj):接收一个对象，用来判断当前对象是否在传入的参数对象的原型链上
+        propertyIsEnumerable('name'):用来判断给定的属性是否可以被for..in语句给枚举出来
+        toString():用来返回对象的字符串表示。
+        toLocaleString():返回对象的字符串表示，和代码的执行环境有关
+        valueOf():返回对象的原始值，可能是字符串、数值或bool值等，看具体的对象。
+        */
+
+        //数组的slice()传入不同参数的情况：
+
+        //var arr=[5,4,3,8,7,1];
+
+        //1.传入的参数start>=end，返回空数组
+        //console.log(arr.slice(2,1));//[]
+
+        //2.传入的参数为正小数时，参数向下取整，再截取   传入的参数为负小数时，报错
+        //console.log(arr.slice(1.2));//[4,3,8,7,1]  从索引位置1开始的
+        //console.log(arr.slice(1.6));//[4,3,8,7,1]  从索引位置1开始的
+        //console.log(arr.slice(-1.5));//报错
+
+        //3.传入的参数为负数时,参数和数组的长度相加，转化为正数且start<end时，从start开始截取到end,start>=end时，返回空数组
+        //console.log(arr.slice(-2,-1));//[7]
+        //console.log(arr.slice(-1,-2));//[]
+        //console.log(arr.slice(-10));//报错
+
+        //4.传入的参数为非数字时，只有为布尔值true时从索引1开始截取，其他数据类型的值都克隆一份原数组
+        //console.log(arr.slice('a'));//[5,4,3,8,7,1]  克隆一份原数组
+        //console.log(arr.slice(''));//[5，4,3,8,7,1]  克隆一份原数组
+        //console.log(arr.slice(NaN));//[5,4,3,8,7,1]  克隆一份原数组
+        //console.log(arr.slice({}));//[5,4,3,8,7,1]  克隆一份原数组
+        //console.log(arr.slice(function (){return 1;}));//[5，4,3,8,7,1]  克隆一份原数组
+        //console.log(arr.slice(true));//[4,3,8,7,1]  布尔值true时，转化为数字1，再截取
+        //console.log(arr.slice(false));//[5，4,3,8,7,1]  克隆一份原数组
+        //console.log(arr.slice(undefined));//[5，4,3,8,7,1]  克隆一份原数组
+        //console.log(arr.slice(null));//[5，4,3,8,7,1]  克隆一份原数组
+
+        //5.传入的参数超出数组的长度时,返回空数组
+        //console.log(arr.slice(7,10));//[]
+        //console.log(arr.slice(-8,-7));//[]
+        //console.log(arr.slice(-10));//报错
+        //console.log(arr.slice(10));//[]
+
+        //有一个参数是负数时，第一个参数是负数且+arr.length=负数时，当做0，从索引0开始截取
+        //console.log(arr.slice(-8,2));//[5,4]
+        //console.log(arr.slice(1,-2));//[4,8,3]
+        /*function Fn(num) {
+            this.x = this.y = num;
+        }
+        Fn.prototype = {
+            x: 20,
+            sum: function () {
+                console.log(this.x + this.y);
+            }
+        };
+        var f = new Fn(10);
+        console.log(f.sum === Fn.prototype.sum);//ture
+        f.sum();//10+10=20
+        Fn.prototype.sum();//20+undefined=NaN
+        console.log(f.constructor);//只有原型对象才有constructor属性，那么f是某个类的原型对象，而并没有定义f类，所以是Object，因为Object是所有类的基类*/
+
+
+    </script>
+
+</body>
+</html>
