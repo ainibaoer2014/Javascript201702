@@ -21,41 +21,7 @@
     };
     xhr.send(null);
     // 绑定数据 有多少个对象 就创建多少个li
-    function bindData() {
-        for (var i = 0; i < 50; i++) {
-            // 获取0-7之间随机整数 Math.round(Math.random()*（7-0）+0);
-            // 作为获取数据的索引
-            var ind = Math.round(Math.random()*7);
-            var curData = data[ind];
 
-            // 创建li
-            var oLi = document.createElement('li');
-            // 创建a
-            var oa = document.createElement('a');
-            oa.href = 'javascript:;';
-            oa.innerHTML = '采集';
-            oLi.appendChild(oa);
-            // 创建 img
-            var oImg = document.createElement('img');
-            //给图片设置随机高 200 - 350
-            oImg.style.height = Math.round(Math.random() * 150 + 200) + 'px';
-
-            // 将图片数据绑定到 每一个img的html属性上
-            oImg.setAttribute('data-real', curData.src);
-
-            oLi.appendChild(oImg);
-            // 创建 p
-            var op = document.createElement('p');
-            op.innerHTML = curData.title;
-            oLi.appendChild(op);
-            oUlArr.sort(function (a, b) {
-                return a.offsetHeight - b.offsetHeight;
-            });
-            // 排完序后 集合中第一个 是高度 最小
-            // 将当前这一轮创建好的 li img 放到 排序后 第一项 也就是 高度最小的那个ul里
-            oUlArr[0].appendChild(oLi);
-        }
-    }
     delayImgs();
     window.onscroll = function () {
         delayImgs();
