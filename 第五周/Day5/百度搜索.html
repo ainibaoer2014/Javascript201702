@@ -53,7 +53,7 @@
        $('#search').on('input', function () {
            var val = $(this).val();
             if(val) {
-                $(this).data('word',val);
+                $(this).data('word',val); // 保存输入框最开始的数据
                 $.ajax({
                     // 百度搜索关键词 请求 接口API
                     url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',
@@ -85,6 +85,7 @@
         var count = -1;
         $('#search').on('keydown', function (e) {
             if(e.keyCode === 38){ // 上
+<<<<<<< HEAD
                  count --;
                  if(count <= -2) {
                      count =  $('.lists li:last').index();
@@ -97,6 +98,20 @@
                  } else {
                      $('.lists li').eq(count).addClass('select').siblings().removeClass('select');
                  }
+=======
+                     count --;
+                     if(count <= -2) {
+                         count =  $('.lists li:last').index();
+                         $('.lists li:last').addClass('select');
+                     } else if(count === -1){
+                         $('.select').removeClass('select');
+                         var word = $(this).data('word');
+                         $(this).val(word); // 输入框中设置为最开始输入时的关键词
+                         return;
+                     } else {
+                         $('.lists li').eq(count).addClass('select').siblings().removeClass('select');
+                     }
+>>>>>>> 45b8fd9cbfc877519804bf291a71ad9dcede4596
 
                 $(this).val($('.lists li').eq(count).html());
 
@@ -106,7 +121,7 @@
                      count = -1;
                     $('.select').removeClass('select');
                      var word = $(this).data('word');
-                      $(this).val(word);
+                      $(this).val(word); // 输入框中设置为最开始输入时的关键词
                      return;
                 }
                 $('.lists li').eq(count).addClass('select').siblings().removeClass('select');
