@@ -85,18 +85,18 @@
         var count = -1;
         $('#search').on('keydown', function (e) {
             if(e.keyCode === 38){ // 上
-                     count --;
-                     if(count <= -2) {
-                         count =  $('.lists li:last').index();
-                         $('.lists li:last').addClass('select');
-                     } else if(count === -1){
-                         $('.select').removeClass('select');
-                         var word = $(this).data('word');
-                         $(this).val(word);
-                         return;
-                     } else {
-                         $('.lists li').eq(count).addClass('select').siblings().removeClass('select');
-                     }
+                 count --;
+                 if(count <= -2) {
+                     count =  $('.lists li:last').index();
+                     $('.lists li:last').addClass('select');
+                 } else if(count === -1){
+                     $('.select').removeClass('select');
+                     var word = $(this).data('word');
+                     $(this).val(word);
+                     return;
+                 } else {
+                     $('.lists li').eq(count).addClass('select').siblings().removeClass('select');
+                 }
 
                 $(this).val($('.lists li').eq(count).html());
 
